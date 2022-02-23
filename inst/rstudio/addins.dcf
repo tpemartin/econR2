@@ -1,0 +1,9 @@
+Name: Setup your environment
+Description: New Addin Description
+Binding: setup
+Interactive: false
+
+Name: Update package
+Description: New Addin Description
+Binding: update_package
+Interactive: false
