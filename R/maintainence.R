@@ -1,5 +1,5 @@
 update_package <- function(){
-  if(!require(devtools)){
+  if(!require(remotes)){
     install.packages("remotes", dependencies = T)
   }
   remotes::install_github(

@@ -28,21 +28,22 @@ check_fix_language <- function(){
 
 }
 fix_libPath <- function(){
-
+  wd_rprofilepath = file.path(".",".Rprofile")
+  ud_rprofilepath = file.path("~",".Rprofile")
   if(isTRUE(Sys.getenv("R_PROFILE_USER") !="")){
-    re_filepath = Sys.getenv("R_PROFILE_USER")
+    rp_filepath = Sys.getenv("R_PROFILE_USER")
   } else
-    if(file.exists("./.Rprofile")){
-      re_filepath = "./.Rprofile"
+    if(file.exists(wd_rprofilepath)){
+      rp_filepath = wd_rprofilepath
     } else
-      if(file.exists("~/.Rprofile")){
-        re_filepath = "~/.Rprofile"
+      if(file.exists(ud_rprofilepath)){
+        rp_filepath = ud_rprofilepath
       } else {
-        re_filepath = "./.Rprofile"
-        file.create(re_filepath)
+        rp_filepath = wd_rprofilepath
+        file.create(rp_filepath)
       }
   xfun::read_utf8(
-    re_filepath
+    rp_filepath
   )  -> lines
 
   rstudioapi::showDialog(
@@ -54,20 +55,21 @@ fix_libPath <- function(){
   ) -> libPath
   c(lines,
   glue::glue('Sys.setenv("R_LIBS_USER"="{libPath}")'))|>
-    xfun::write_utf8(re_filepath)
+    xfun::write_utf8(rp_filepath)
 }
 fix_language2english <- function(){
-
+  wd_renvfilepath = file.path(".",".Renviron")
+  ud_renvfilepath = file.path("~",".Renviron")
   if(isTRUE(Sys.getenv("R_ENVIRON_USER") !="")){
     re_filepath = Sys.getenv("R_ENVIRON_USER")
   } else
-    if(file.exists("./.Renviron")){
-      re_filepath = "./.Renviron"
+    if(file.exists(wd_renvfilepath)){
+      re_filepath = wd_renvfilepath
     } else
-      if(file.exists("~/.Renviron")){
-        re_filepath = "~/.Renviron"
+      if(file.exists(ud_renvfilepath)){
+        re_filepath = ud_renvfilepath
       } else {
-        re_filepath = "./.Renviron"
+        re_filepath = wd_renvfilepath
         file.create(re_filepath)
       }
   xfun::read_utf8(
