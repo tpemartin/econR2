@@ -28,7 +28,7 @@ check_fix_language <- function(){
 
 }
 fix_libPath <- function(){
-  wd_rprofilepath = file.path(".",".Rprofile")
+  wd_rprofilepath = file.path(getwd(),".Rprofile")
   ud_rprofilepath = file.path("~",".Rprofile")
   if(isTRUE(Sys.getenv("R_PROFILE_USER") !="")){
     rp_filepath = Sys.getenv("R_PROFILE_USER")
@@ -58,7 +58,7 @@ fix_libPath <- function(){
     xfun::write_utf8(rp_filepath)
 }
 fix_language2english <- function(){
-  wd_renvfilepath = file.path(".",".Renviron")
+  wd_renvfilepath = file.path(getwd(),".Renviron")
   ud_renvfilepath = file.path("~",".Renviron")
   if(isTRUE(Sys.getenv("R_ENVIRON_USER") !="")){
     re_filepath = Sys.getenv("R_ENVIRON_USER")
