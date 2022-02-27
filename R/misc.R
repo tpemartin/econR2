@@ -3,7 +3,7 @@ create_project_if_necessary <- function(){
   if(is.null(projectFolder)){
     rstudioapi::showDialog(
       "Alert",
-      "The folder of this directory is not a project yet. You need to make the folder a project folder."
+      "The folder of this directory is not a project yet. You need to make the folder a project folder. \nBe aware that everything in that folder will be used for R. You can select a different folder after you click OK."
     )
     projectFolder =
       rstudioapi::selectDirectory(
@@ -13,6 +13,7 @@ create_project_if_necessary <- function(){
     rstudioapi::initializeProject(
       path=projectFolder
     )
+    rstudioapi::openProject(projectFolder)
   }
   invisible(projectFolder)
 }

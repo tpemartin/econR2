@@ -9,13 +9,12 @@ setup <- function(){
     check_installation_path(),
     msg="Please fix your R/RStudio installation path then do check_fix() again."
   )
+  create_project_if_necessary() -> projectPath
+
   check_fix_libraryPath()
   fix_language2english()
 
   message("Don't forget to check your encoding setting.")
-  create_project_if_necessary() -> projectPath
-
-  rstudioapi::openProject(projectPath)
 
 }
 check_fix_language <- function(){
