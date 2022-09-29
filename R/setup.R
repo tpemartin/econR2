@@ -91,14 +91,16 @@ check_installation_path <- function(){
   if(flag_nonASCII) warning("R should not be installed at a path with `non-English` characters.")
 
   flag_onedrive <- stringr::str_detect(R.home(), "OneDrive")
-  if(flag_onedrive) warning("R should not be installed under OneDrive")
+  if(flag_onedrive) {
+    warning("R should not be installed under OneDrive") } else {
+      message("No problem found.")
+    }
 
-  message("No problem found.")
   return(!flag_nonASCII && !flag_onedrive)
 }
 
 check_fix_libraryPath <- function(){
   flag_accessible <- file.access(.libPaths(),2)==0
-  if(!flag_accessible) fix_libPath()
+  if(all(!flag_accessible)) fix_libPath()
   message("Lib path check fix done")
 }
