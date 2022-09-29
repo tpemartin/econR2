@@ -7,3 +7,9 @@ Name: Update package
 Description: New Addin Description
 Binding: update_package
 Interactive: false
+
+Name: Check working directory
+Description: New Addin Description
+Binding: check_path
+Interactive: false
+

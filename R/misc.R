@@ -33,9 +33,12 @@ write_Rprofile <- function(appendlines,
   .new_lines = appendlines
   if(file.exists(rprofilepath)){
     xfun::read_utf8(rprofilepath) -> .lines
-    .lines |> rlang::parse_exprs() -> expr_lines
+    .lines |>
+      paste(collapse="\n") |>
+      rlang::parse_exprs() -> expr_lines
 
     appendlines |>
+      paste(collapse="\n") |>
       rlang::parse_exprs() -> exprs_append
 
     append(expr_lines, exprs_append) -> exprs_all
