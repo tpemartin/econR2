@@ -21,7 +21,7 @@ extract_ipynbCodesFromClipboardUrl = function(){
     msg="ipynb document url is not copied to your clipboard yet.")
   extract_ipynbCodes(url)
 }
-# url = "https://raw.githubusercontent.com/tpemartin/111-1-econDV/main/data3.ipynb"
+url = "https://raw.githubusercontent.com/tpemartin/111-1-econDV/main/data3.ipynb"
 
 extract_ipynbCodes = function(url) {
   url=getRawUrl(url)
@@ -32,6 +32,7 @@ extract_ipynbCodes = function(url) {
     jsonlite::fromJSON() -> context
 
   whichIsCode = which(context[['cells']][['cell_type']] == "code")
+  markdownChunks= context$cells$source[-whichIsCode]
   codeChunks = context$cells$source[whichIsCode]
   codeChunks |>
     purrr::map(stringr::str_flatten) |>
