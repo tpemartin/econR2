@@ -1,4 +1,15 @@
+convertiPynbToQmd = function(){
+  rstudioapi::getSourceEditorContext() -> activeContext
+  activeContext$path |>
+    normalizePath() |>
+    stringr::str_replace(normalizePath("."),".") ->
+    path
 
+  tm = rstudioapi::terminalExecute(
+    paste0('quarto render ',path)
+  )
+  rstudioapi::terminalKill(tm)
+}
 # url = "https://github.com/tpemartin/111-1-econDV/blob/main/data3.ipynb"
 getRawUrl = function(url) {
   flag_detectBlob = stringr::str_detect(url, "blob")

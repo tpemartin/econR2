@@ -13,3 +13,8 @@ Description: New Addin Description
 Binding: check_path
 Interactive: false
 
+Name: convert ipynb to qmd
+Description: New Addin Description
+Binding: convertiPynbToQmd
+Interactive: false
+
