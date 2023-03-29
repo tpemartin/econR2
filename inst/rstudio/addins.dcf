@@ -1,3 +1,13 @@
+Name: Download Github link
+Description: New Addin Description
+Binding: readClipUrlDownload
+Interactive: false
+
+Name: Refresh local Github file
+Description: New Addin Description
+Binding: update_localfile
+Interactive: false
+
 Name: Setup your environment
 Description: New Addin Description
 Binding: setup
@@ -17,4 +27,5 @@ Name: convert ipynb to qmd
 Description: New Addin Description
 Binding: convertiPynbToQmd
 Interactive: false
+
 
