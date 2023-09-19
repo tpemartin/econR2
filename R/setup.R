@@ -82,11 +82,11 @@ fix_language2english <- function(){
   stringr::str_detect(lines, "LANGUAGE|LANG\\s*=") -> pick_same
   stringr::str_detect(lines, "^#") ->
     pick_comment
-  which2comment <- which(pick_same && !pick_comment)
+  which2comment <- which(pick_same & !pick_comment)
   paste("#", lines[which2comment]) -> lines[which2comment]
   c("LANGUAGE=en", lines) |>
     xfun::write_utf8(re_filepath)
-
+  message("Done")
 }
 
 check_installation_path <- function(){
