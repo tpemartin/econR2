@@ -1,0 +1,81 @@
+---
+title: "week8"
+output: html_document
+date: "2023-04-12"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Review of week 6
+
+```{r}
+dropboxlink = "https://www.dropbox.com/s/6vhwbxnzc0fz3is/90-107%E5%AD%B8%E5%B9%B4%E5%BA%A6%E5%A4%A7%E5%AD%B8%E9%83%A8%E8%AA%B2%E7%A8%8B%E8%B3%87%E6%96%99.csv?dl=1"
+courses <- readr::read_csv(dropboxlink)
+```
+
+```{r}
+week6 <- list()
+```
+
+## Courses on Wednesday
+
+```{r}
+# split data frame based on a column 
+courses |> split(courses$學年) -> week6$dataSplit$byYear
+
+# focus on only 107 school year
+targetCourses <- week6$dataSplit$byYear$`107` 
+
+## What courses are available on Wednesday?
+### 1. filtered based on logical expressions
+pick <- grepl("週三", targetCourses$上課時間教室)
+head(pick)
+targetCourses[pick, ] |> 
+  dplyr::glimpse()
+
+### 2. filtered based on positions
+pos <- grep("週三", targetCourses$上課時間教室)
+head(pos)
+targetCourses[pos, ] |> 
+  dplyr::glimpse()
+
+### 3. use dplyr::filter
+targetCourses |>
+  dplyr::filter(grepl("週三", targetCourses$上課時間教室)) |> 
+  dplyr::glimpse()
+```
+
+-   logical expression is to return a vector of **logicals** that tells us which element meet the condition.
+
+```{r}
+timePlace <- 
+  c("每週一3~4　商1F16", "每週四6~8　社113", "每週五3~4　文4F05_L", 
+"每週三7~8　文2F02", "隔週教室資1F-10、每週五3~4　資1F-10", 
+"每週一3~4　文4F08", "每週五7~8　", "每週一5~6　社112", 
+"每週三5~6　", "每週二5~6　文2F01")
+
+# logical expression: equivalent
+timePlace == "每週二5~6　文2F01"
+
+# logical expression: contain
+grepl("週三", timePlace)
+```
+
+# For each
+
+## Each 開課系所 
+
+-   How many courses were offered?
+
+```{r}
+targetCourses$開課系所 |> class()
+```
+
+```{r}
+targetCourses$開課系所 |> table() |> sort()
+```
+
+## Each 學院
+

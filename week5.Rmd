@@ -1,0 +1,332 @@
+---
+title: "week 5"
+output: html_document
+date: "2023-03-22"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Create a google form to take attendance
+
+# Time zone
+
+## Create a google form to take attendance
+
+## Import data from google sheets
+
+> how to import data from google sheets in R
+
+### ChatGPT answer
+
+To import data from Google Sheets in R, you can use the "googlesheets4" package. Here are the steps:
+
+1. Install the "googlesheets4" package using the following command:
+
+```
+install.packages("googlesheets4")
+```
+
+2. Load the package using the following command:
+
+```
+library(googlesheets4)
+```
+
+3. Authenticate with Google Sheets by running the following command:
+
+```
+gs4_auth()
+```
+
+4. Once you are authenticated, you can import data from a Google Sheet by running the following command:
+
+```
+my_sheet <- gs4_get("https://docs.google.com/spreadsheets/d/1abcdefg/edit#gid=123456789")
+```
+
+Replace the URL with the URL of the Google Sheet that you want to import. The "gid" parameter in the URL specifies the sheet ID. If you want to import a specific sheet, make sure to include the correct sheet ID in the URL.
+
+5. Once the data is imported, you can use standard R functions to manipulate and analyze the data.
+
+Note that you will need to have permissions to access the Google Sheet in order to import the data.
+
+### Code
+
+```{r}
+library(googlesheets4)
+```
+
+```{r}
+gs4_auth()
+```
+
+```{r}
+mySheet <- gs4_get("https://docs.google.com/spreadsheets/d/187LRBCzcHCetea9ZsCnWOUFDdXCfVIZx3R2vvPsmh4I/edit#gid=91650247")
+```
+
+
+# List
+
+Two types of vectors
+
+  * Atomic vectors: all element values are of the same type.
+  
+```{r}
+atomicVec0 <- c(2, 23.1, 22, 100, -100, Inf, -Inf, NA)
+atomicVec1 <- c(T, T, F, FALSE, TRUE, FALSE, NA)
+atomicVec2 <- c("Martin", "Janet", "Jim")
+```
+
+  * list: no restriction on element values, and is created using `list(...)`
+  
+```{r}
+# three element values
+list0 <- list(2, "Martin", FALSE)
+list1 <- list(
+  2, 
+   c("Martin", "Janet", "Jim"),
+  FALSE
+)
+# vector of length 3
+list2 <- list(
+  list("Mary", 32, TRUE), 
+  list("Martin", 40, FALSE),
+  list("Janet", 20, TRUE)
+)
+```
+ 
+    * list allows user to nest informations. 
+
+## Element names
+
+```{r}
+list3 = list(name="Mary", age=32, isMarried=TRUE)
+```
+
+
+## data frame 
+
+is a special list.
+
+  * element name becomes column name.
+  
+  * element values are all atomic vector of the same length
+
+Consider `list2`
+
+```{r}
+list2 <- list(
+  list("Mary", 32, TRUE), 
+  list("Martin", 40, FALSE),
+  list("Janet", 20, TRUE)
+)
+class(list2)
+```
+
+  
+```{r}
+dataFrame2 <- list(
+  name = c("Mary", "Martin", "Janet"),
+  age = c(32, 40, 20),
+  isMarried = c(T, F, T) 
+)
+
+class(dataFrame2)
+
+dataframe2 = data.frame(dataFrame2)
+
+class(dataframe2)
+```
+
+data frame is a list that has been parsed.
+
+
+```{r}
+# it is the same as
+dataFrame2 <- data.frame(list(
+  name = c("Mary", "Martin", "Janet"),
+  age = c(32, 40, 20),
+  isMarried = c(T, F, T) 
+))
+# or 
+dataFrame2 <- data.frame(
+  name = c("Mary", "Martin", "Janet"),
+  age = c(32, 40, 20),
+  isMarried = c(T, F, T) 
+)
+```
+
+  * Anything your learn about list also works on data frame
+  
+# Operations on Vectors
+
+```{r}
+# how many elements inside
+length(list1)
+length(dataframe2)
+length(atomicVec0)
+print(atomicVec1)
+atomicVec1
+length(atomicVec1)
+ 
+# check element names
+names(list1)
+list2
+names(list2)
+names(dataframe2)
+# colnames(dataframe2)
+```
+
+# Obtain one sheet from a google sheet url
+
+```{r}
+googlesheets4::read_sheet(
+  "https://docs.google.com/spreadsheets/d/187LRBCzcHCetea9ZsCnWOUFDdXCfVIZx3R2vvPsmh4I/edit#gid=91650247",
+  sheet = "Form Responses 1"
+) -> attendanceData
+```
+
+
+# Operation on list 
+
+
+```{r}
+# number of columns
+length(attendanceData)
+
+# column names
+names(attendanceData)
+```
+
+## only for data frame
+
+```{r}
+# number of rows
+nrow(attendanceData)
+```
+
+## retrieve one element from list
+
+```{r}
+# $ is for list. Since data frame is a list fundamentally, it works here
+attendanceData$Timestamp
+attendanceData$`Email Address` # back tick ` for special element names
+```
+
+```{r}
+list(`Email Address`="tpemartin@gmail.com")
+```
+
+
+# Time 
+
+## Check if R understand it correctly
+
+```{r}
+attendanceData$Timestamp |> class()
+# same as
+class(attendanceData$Timestamp)
+```
+
+
+```{r}
+timestampAsCharacter = as.character(attendanceData$Timestamp)
+timestampAsCharacter |> class()
+```
+
+```{r}
+print(attendanceData$Timestamp)
+print(timestampAsCharacter)
+```
+## change time zone
+
+  * only works on Date/Time class vector
+
+```{r}
+attendanceData$Timestamp |> class()
+
+```
+
+### check available time zones
+
+```{r}
+OlsonNames() -> tzs
+class(tzs)
+tzs
+as.list(tzs) |> View()
+```
+
+> Filter character vector based on some criteria in R
+
+To filter a character vector based on some criteria in R, you can use the "grep" function. Here's an example:
+
+Let's say you have a character vector "my_vector" containing the following elements:
+
+```
+my_vector <- c("apple", "banana", "orange", "grape", "pear", "pineapple")
+```
+
+If you want to filter this vector to only include elements that contain the letter "a", you can use the following code:
+
+```
+filtered_vector <- my_vector[grep("a", my_vector)]
+```
+
+This code creates a new vector called "filtered_vector" that only includes elements from "my_vector" that contain the letter "a". The "grep" function searches each element in "my_vector" for the pattern "a" and returns a vector of logical values indicating which elements match the pattern. The square brackets then subset "my_vector" to only include the elements where the logical value is TRUE.
+
+You can adjust the pattern in the "grep" function to match different criteria. For example, if you only want to include elements that start with the letter "p", you can use the following code:
+
+```
+filtered_vector <- my_vector[grep("^p", my_vector)]
+```
+
+In this case, the pattern "^p" matches any element that starts with the letter "p".
+
+```{r}
+# in conclusion
+# to filter those that has "a"
+my_vector <- c("apple", "banana", "orange", "grape", "pear", "pineapple")
+filtered_vector <- my_vector[grep("a", my_vector)]
+
+```
+
+
+
+```{r}
+# filter from tzs (also my_vector) those that contains "Asia"
+my_vector <- tzs
+filtered_vector <- my_vector[grep("Asia", my_vector)]
+
+filtered_vector
+```
+## convert to Taipei time zone
+
+```{r}
+attendanceData$Timestamp |> class()
+attendanceData$Timestamp |>
+  lubridate::with_tz(
+    tzone="Asia/Taipei"
+  )
+```
+
+## Fixed wrong time zone
+
+```{r}
+attendanceData$Timestamp |>
+  lubridate::force_tz(
+    tzone = "Asia/Taipei"
+  ) -> attendanceData$Timestamp
+```
+
+```{r}
+print(attendanceData$Timestamp)
+```
+```{r}
+attendanceData$Timestamp |> 
+  lubridate::with_tz(tzone="America/New_York")
+attendanceData$Timestamp |>
+  lubridate::with_tz(tzone="America/Los_Angeles")
+```
+

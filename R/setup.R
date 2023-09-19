@@ -1,6 +1,5 @@
 #' Setup your R environment
 #'
-#' @return
 #' @export
 #'
 #' @examples none
@@ -56,7 +55,13 @@ fix_libPath <- function(){
   glue::glue('Sys.setenv("R_LIBS_USER"="{libPath}")'))|>
     xfun::write_utf8(rp_filepath)
 }
+#' Fix error message language to English
+#'
+#' @return none
+#' @export
 fix_language2english <- function(){
+  if(!require("xfun")) install.packages("xfun")
+  if(!require("stringr")) install.packages("stringr")
   wd_renvfilepath = file.path(getwd(),".Renviron")
   ud_renvfilepath = file.path("~",".Renviron")
   if(isTRUE(Sys.getenv("R_ENVIRON_USER") !="")){

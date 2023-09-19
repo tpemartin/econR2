@@ -6,9 +6,6 @@
 \usage{
 setup()
 }
-\value{
-
-}
 \description{
 Setup your R environment
 }
